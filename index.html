@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysian Voyages - Bespoke Luxury Travel</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Montserrat:wght@300;500&family=Lato:wght@300&family=Playfair+Display&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0A2342;
+            --secondary: #D5A021;
+            --accent: #7D9D8C;
+            --neutral-light: #F8F8F8;
+            --neutral-dark: #333333;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: var(--neutral-dark);
+            background: var(--neutral-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: transparent;
+            transition: background 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
+            z-index: 1000;
+        }
+
+        header.scrolled {
+            background: var(--primary);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links li a {
+            color: var(--neutral-light);
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links li a:hover {
+            color: var(--secondary);
+        }
+
+        .contact-btn {
+            padding: 10px 20px;
+            background: var(--secondary);
+            color: var(--neutral-light);
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            border-radius: 5px;
+            transition: transform 0.3s ease, background-color 0.3s ease; /* Added background transition */
+        }
+
+        .contact-btn:hover {
+            transform: scale(1.05);
+            background-color: #e5b02c; /* Darker gold on hover */
+        }
+
+        /* Burger Menu Styles */
+        .burger-menu {
+            display: none;
+            cursor: pointer;
+            z-index: 1100;
+            padding: 5px;
+        }
+
+        .burger-line {
+            width: 28px;
+            height: 3px;
+            background-color: var(--neutral-light);
+            margin: 6px 0;
+            transition: all 0.4s ease;
+            border-radius: 2px;
+        }
+
+        .burger-menu.active .burger-line:nth-child(1) {
+            transform: rotate(-45deg) translate(-6px, 6px);
+        }
+
+        .burger-menu.active .burger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger-menu.active .burger-line:nth-child(3) {
+            transform: rotate(45deg) translate(-6px, -6px);
+        }
+
+        .hero {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--neutral-light);
+            position: relative;
+            background: url('https://images.pexels.com/photos/1249586/pexels-photo-1249586.jpeg?auto=compress&cs=tinysrgb&w=1200') center/cover no-repeat fixed;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-family: 'Lato', sans-serif;
+            font-size: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Fine-tune centering */
+            width: 30px;
+            height: 50px;
+            border: 2px solid var(--neutral-light);
+            border-radius: 25px;
+            opacity: 0.8;
+            /* Removed animation for simplicity, can be re-added if desired */
+        }
+
+        .scroll-indicator::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            width: 6px;
+            height: 10px;
+            background: var(--neutral-light);
+            border-radius: 3px;
+            transform: translateX(-50%);
+            animation: scroll-dot 2s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Smoother animation */
+        }
+
+        @keyframes scroll-dot {
+            0% { transform: translate(-50%, 0); opacity: 1;}
+            50% { transform: translate(-50%, 15px); opacity: 0.5;}
+            100% { transform: translate(-50%, 0); opacity: 1;}
+        }
+
+
+        section {
+            padding: 80px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 40px;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .philosophy {
+            background: var(--neutral-light);
+            text-align: center;
+        }
+
+        .philosophy p {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            font-size: 18px;
+        }
+
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .destination-card {
+            position: relative;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother ease */
+        }
+
+        .destination-card:hover {
+            transform: scale(1.05);
+        }
+
+        .destination-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Slightly darker overlay */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .destination-card:hover .destination-overlay {
+            opacity: 1;
+        }
+
+        .destination-overlay h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--neutral-light);
+            font-size: 24px;
+            transform: translateY(10px); /* Start slightly lower */
+            transition: transform 0.4s ease;
+        }
+        .destination-card:hover .destination-overlay h3 {
+             transform: translateY(0); /* Move up on hover */
+        }
+
+        .experiences {
+            background: var(--primary);
+            color: var(--neutral-light);
+        }
+        .experiences h2 { /* Override default h2 color */
+            color: var(--neutral-light);
+        }
+
+        .experiences-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .experience-card {
+            background: var(--neutral-light);
+            color: var(--neutral-dark);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added shadow transition */
+        }
+
+        .experience-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* Add shadow on hover */
+        }
+
+        .experience-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .experience-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--primary); /* Ensure heading color */
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--secondary);
+            color: var(--neutral-light);
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+            background-color: #e5b02c;
+        }
+
+        .testimonials {
+            text-align: center;
+            padding: 60px 0;
+            background: var(--neutral-light);
+        }
+
+        /* --- UPDATED TESTIMONIAL SLIDER STYLES --- */
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative; /* Contain absolute children */
+            min-height: 350px; /* Adjust based on content + padding + controls */
+            overflow: hidden; /* Hide overflowing slides during transition */
+        }
+
+        .testimonial {
+            padding: 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: var(--primary);
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out; /* Smoother transition */
+            position: absolute; /* All absolute */
+            top: 0;
+            left: 0;
+            width: 100%;
+            transform: translateX(30px); /* Start slightly to the right for slide-in */
+            pointer-events: none; /* Prevent interaction when hidden */
+        }
+
+        .testimonial.active {
+            opacity: 1;
+            transform: translateX(0); /* Slide into view */
+            position: relative; /* Takes up space when active */
+            pointer-events: auto; /* Allow interaction when active */
+            z-index: 1; /* Ensure active is on top */
+        }
+
+        .testimonial-content {
+            display: flex;
+            flex-direction: column; /* Default stack layout */
+            align-items: center;
+            text-align: center;
+            gap: 20px; /* Spacing between elements */
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            min-height: 200px; /* Ensure minimum height for consistency */
+        }
+        @media (min-width: 600px) { /* Apply side-by-side layout on larger screens */
+             .testimonial-content {
+                 flex-direction: row;
+                 text-align: left;
+                 gap: 30px;
+             }
+         }
+
+        .testimonial-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0; /* Prevent image shrinking */
+        }
+
+        .testimonial blockquote {
+             flex-grow: 1; /* Allow text block to take remaining space */
+        }
+
+        .testimonial cite {
+            display: block; /* block for better spacing control */
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            margin-top: 15px;
+            color: var(--neutral-dark);
+            font-style: normal; /* Remove default italic */
+            text-align: center; /* Center cite text */
+        }
+        @media (min-width: 600px) {
+            .testimonial cite {
+                text-align: left; /* Align left on larger screens */
+            }
+        }
+
+        .client-name {
+            display: block; /* Ensure it's on its own line */
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .client-location {
+            display: block;
+            font-size: 14px;
+            color: var(--accent);
+            margin: 5px 0;
+        }
+
+        .rating {
+            color: var(--secondary);
+            letter-spacing: 2px;
+            font-size: 1.1em; /* Slightly larger stars */
+        }
+
+        .testimonial-controls {
+            text-align: center;
+            margin-top: 30px; /* Space above controls */
+             position: relative; /* Ensure buttons are clickable */
+             z-index: 2;
+        }
+
+        .prev-btn, .next-btn {
+            background-color: var(--secondary);
+            color: var(--neutral-light);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 0 10px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            line-height: 1; /* Ensure text is centered vertically */
+            width: 40px; /* Fixed width */
+            height: 40px; /* Fixed height */
+            display: inline-flex; /* Use flex for centering */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prev-btn:hover, .next-btn:hover {
+            background-color: var(--primary);
+            transform: scale(1.1);
+        }
+        /* --- END OF UPDATED SLIDER STYLES --- */
+
+        .booking-process {
+            text-align: center;
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-around; /* Better spacing */
+            flex-wrap: wrap;
+            gap: 30px; /* Increased gap */
+            margin-top: 30px; /* Add margin below heading */
+        }
+
+        .process-step {
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px; /* Max width for steps */
+            padding: 30px 20px; /* More padding */
+            background: white; /* Use white for contrast */
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Subtle shadow */
+        }
+
+        .process-step:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* Enhanced shadow */
+        }
+        .process-step i { /* Icon styling */
+             font-size: 48px;
+             color: var(--secondary);
+             margin-bottom: 20px;
+             display: block; /* Ensure icon takes full width */
+        }
+         .process-step h3 {
+             font-family: 'Montserrat', sans-serif;
+             color: var(--primary);
+             margin-bottom: 10px;
+         }
+
+        .journal {
+            background: var(--neutral-light); /* Ensure background */
+        }
+
+        .journal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .journal-card {
+            background: white; /* Use white background */
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .journal-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .journal-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block; /* Remove extra space below image */
+        }
+
+        .journal-card-content { /* Added content wrapper */
+             padding: 20px;
+        }
+
+        .journal-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            color: var(--primary);
+            margin: 0; /* Reset margin */
+        }
+
+        .contact {
+            background: var(--primary);
+            color: var(--neutral-light);
+            text-align: center;
+        }
+
+        .contact h2 {
+            color: var(--neutral-light);
+        }
+
+        .contact form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact input,
+        .contact textarea {
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Lato', sans-serif;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.1); /* Subtle background */
+             color: var(--neutral-light); /* Light text color */
+             border: 1px solid transparent; /* Placeholder for focus */
+             transition: background-color 0.3s, border-color 0.3s;
+        }
+         .contact input::placeholder,
+         .contact textarea::placeholder {
+             color: rgba(255, 255, 255, 0.6);
+         }
+
+         .contact input:focus,
+         .contact textarea:focus {
+             outline: none;
+             background-color: rgba(255, 255, 255, 0.15);
+             border-color: var(--secondary);
+         }
+
+
+        .contact button {
+            padding: 15px;
+            background: var(--secondary);
+            color: var(--neutral-light);
+            border: none;
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            font-weight: bold; /* Make button text bolder */
+             font-size: 16px;
+        }
+
+        .contact button:hover {
+            transform: scale(1.05);
+            background-color: #e5b02c;
+        }
+
+        footer {
+            background: var(--primary);
+            color: var(--neutral-light);
+            padding: 60px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden; /* Keep overflow hidden */
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Keep footer::before for pattern if desired */
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.05)"/></svg>');
+            opacity: 0.3;
+             z-index: 0; /* Ensure pattern is behind content */
+        }
+        footer > * { /* Ensure footer content is above the pseudo-element */
+             position: relative;
+             z-index: 1;
+        }
+
+        footer .newsletter {
+            margin-bottom: 40px;
+             display: flex; /* Use flex for alignment */
+             justify-content: center;
+             align-items: center;
+             flex-wrap: wrap; /* Allow wrapping on small screens */
+             gap: 0; /* Remove gap, handled by border-radius */
+        }
+        footer .newsletter h3 {
+             width: 100%; /* Full width heading */
+             margin-bottom: 20px;
+             font-family: 'Montserrat', sans-serif;
+        }
+
+        footer .newsletter input {
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px 0 0 30px; /* Left rounded */
+            font-family: 'Lato', sans-serif;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--neutral-light);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            border-right: none; /* Remove right border */
+        }
+
+        footer .newsletter input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--secondary);
+        }
+
+        footer .newsletter input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        footer .newsletter button {
+            padding: 15px 30px;
+            background: var(--secondary);
+            color: var(--neutral-light);
+            border: 2px solid var(--secondary); /* Match input border */
+            border-radius: 0 30px 30px 0; /* Right rounded */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            height: 54px; /* Match input height (padding + border) */
+            margin-left: -1px; /* Overlap borders slightly */
+        }
+
+
+        footer .newsletter button:hover {
+            /* transform: translateY(-2px); Removed transform */
+            background: #e5b02c;
+             border-color: #e5b02c;
+            box-shadow: 0 5px 15px rgba(213, 160, 33, 0.3);
+        }
+
+        footer .social {
+            margin: 40px 0; /* Increased margin */
+        }
+
+        footer .social a {
+            color: var(--neutral-light);
+            margin: 0 15px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        footer .social a:hover {
+            color: var(--secondary);
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+         footer .social a::after { /* Underline effect (optional) */
+             content: '';
+             position: absolute;
+             bottom: -4px; /* Position below the link */
+             left: 50%;
+             width: 0;
+             height: 2px;
+             background: var(--secondary);
+             transition: all 0.3s ease;
+             transform: translateX(-50%);
+         }
+
+         footer .social a:hover::after {
+             width: 60%; /* Adjust underline width */
+         }
+        footer p { /* Copyright text */
+             margin-top: 30px;
+             font-size: 14px;
+             opacity: 0.7;
+        }
+
+
+        /* --- Responsive Styles --- */
+        @media (max-width: 1200px) {
+            section {
+                padding: 60px 30px;
+            }
+
+            .destinations-grid,
+            .experiences-grid,
+            /* .team-grid, */ /* Team section seems missing from HTML? */
+            .journal-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjust minmax */
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 50px;
+            }
+
+            .hero p {
+                font-size: 18px;
+                max-width: 500px;
+            }
+
+            .process-steps {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .process-step {
+                width: 100%;
+                max-width: 400px;
+                 /* margin-bottom: 20px; Removed, using gap now */
+            }
+
+            footer .newsletter input {
+                min-width: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                 /* Ensure scrolled header has padding too */
+             }
+             header.scrolled {
+                  padding: 15px 20px;
+             }
+
+            .burger-menu {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%; /* Start fully hidden */
+                height: 100vh;
+                width: 80%;
+                max-width: 300px;
+                background: var(--primary);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Smoother ease */
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+                padding-top: 60px; /* Space for header */
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links li {
+                margin: 20px 0; /* Adjust spacing */
+                 width: 80%; /* Limit link width */
+                 text-align: center;
+            }
+
+            .nav-links li a {
+                font-size: 18px;
+                padding: 12px 10px; /* Adjust padding */
+                display: block;
+                border-radius: 5px;
+                transition: background 0.3s ease, color 0.3s ease;
+            }
+
+            .nav-links li a:hover {
+                background: rgba(255, 255, 255, 0.1);
+                 color: var(--secondary); /* Ensure hover color works */
+            }
+
+            .contact-btn {
+                display: none; /* Hide header contact button */
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero p {
+                font-size: 16px;
+                max-width: 90%; /* Use percentage */
+            }
+
+            section {
+                padding: 40px 20px;
+            }
+
+            .destinations-grid,
+            .experiences-grid,
+            /* .team-grid, */
+            .journal-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .destination-card {
+                height: 250px;
+            }
+            .experience-card img {
+                 height: 180px; /* Adjust image height */
+            }
+
+             /* Responsive Testimonial Adjustments */
+            .testimonial {
+                 font-size: 16px;
+                 padding: 15px;
+            }
+            .testimonial-slider {
+                  min-height: 400px; /* More height needed */
+            }
+            .testimonial-content {
+                padding: 25px 20px; /* Adjust padding */
+            }
+            .testimonial-image {
+                width: 80px;
+                height: 80px;
+            }
+
+            .contact form {
+                width: 100%;
+            }
+
+            footer .newsletter {
+                 /* Flex direction column applied via wrap */
+            }
+
+            footer .newsletter input,
+            footer .newsletter button {
+                width: 90%;
+                max-width: 300px;
+                border-radius: 30px; /* Full radius on small screens */
+                text-align: center;
+                border: 2px solid rgba(255, 255, 255, 0.1); /* Ensure borders visible */
+                margin: 5px 0; /* Add vertical spacing */
+                 height: 50px; /* Adjust height */
+            }
+            footer .newsletter input {
+                 padding: 12px 20px;
+            }
+             footer .newsletter button {
+                 padding: 12px 20px;
+             }
+
+            footer .social a {
+                margin: 0 8px; /* Tighter spacing */
+                padding: 6px 12px;
+                font-size: 14px; /* Smaller text */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            h2 {
+                font-size: 32px;
+            }
+
+            .philosophy p {
+                font-size: 16px;
+            }
+
+            .destination-card {
+                height: 200px;
+            }
+             .experience-card img {
+                 height: 150px;
+            }
+
+            .destination-overlay h3 {
+                font-size: 20px;
+            }
+
+            .experience-card h3 {
+                font-size: 18px;
+            }
+
+            /* .team-member img { height: 250px; } */ /* Team section missing */
+
+             .testimonial-slider {
+                 min-height: 450px; /* More height needed */
+             }
+
+            .contact input,
+            .contact textarea {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            footer {
+                padding: 40px 20px;
+            }
+
+            footer .social {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 15px; /* Space between stacked links */
+            }
+
+            footer .social a {
+                 margin: 0; /* Remove horizontal margin */
+                 display: inline-block; /* Ensure padding works */
+            }
+            footer .social a:hover {
+                transform: translateY(-2px); /* Less pronounced hover effect */
+            }
+            footer .social a::after {
+                display: none; /* Hide underline on very small screens */
+            }
+        }
+
+        @media (max-width: 380px) { /* Extra small screens */
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .destination-card {
+                height: 180px;
+            }
+             .experience-card img {
+                 height: 130px;
+             }
+
+            footer .newsletter input {
+                min-width: 90%; /* Almost full width */
+            }
+            h2 {
+                font-size: 28px; /* Smaller headings */
+            }
+             .testimonial-slider {
+                 min-height: 480px; /* Might need even more height */
+             }
+             .prev-btn, .next-btn {
+                 width: 35px;
+                 height: 35px;
+                 font-size: 16px;
+             }
+        }
+
+        /* Larger screen adjustments */
+        @media (min-width: 1400px) {
+            section { /* Wider sections */
+                 max-width: 1320px;
+            }
+            .hero h1 {
+                font-size: 70px;
+            }
+            .hero p {
+                font-size: 22px;
+                max-width: 700px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Elysian Voyages</div>
+        <nav>
+            <div class="burger-menu">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#experiences">Experiences</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <a href="#contact" class="contact-btn">Get in Touch</a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Bespoke Journeys, Crafted for You</h1>
+            <p>Experience unparalleled luxury travel with Elysian Voyages, where every journey is tailored to your
+                desires.</p>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <section class="philosophy">
+        <h2>Our Philosophy</h2>
+        <p>At Elysian Voyages, we believe luxury travel is about creating unforgettable moments that resonate deeply.
+            Our commitment to personalization, exclusivity, and expertise ensures every journey is a masterpiece.</p>
+    </section>
+
+    <section id="destinations" class="destinations">
+        <h2>Featured Destinations</h2>
+        <div class="destinations-grid">
+            <div class="destination-card"
+                style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80')"> <div class="destination-overlay">
+                    <h3>Maldives</h3>
+                </div>
+            </div>
+            <div class="destination-card"
+                style="background-image: url('https://images.pexels.com/photos/1010657/pexels-photo-1010657.jpeg?auto=compress&cs=tinysrgb&w=1200')">
+                <div class="destination-overlay">
+                    <h3>Santorini</h3>
+                </div>
+            </div>
+            <div class="destination-card"
+                style="background-image: url('https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80')"> <div class="destination-overlay">
+                    <h3>Patagonia</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experiences" class="experiences">
+        <h2>Signature Experiences</h2>
+        <div class="experiences-grid">
+            <div class="experience-card">
+                <img src="https://images.pexels.com/photos/1655166/pexels-photo-1655166.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                    alt="Private Yacht Sailing near Cliffs">
+                <h3>Yacht Adventures</h3>
+                <a href="#contact" class="cta-btn">Explore</a> </div>
+            <div class="experience-card">
+                <img src="https://images.pexels.com/photos/2677843/pexels-photo-2677843.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                    alt="Zebras on Safari in open grassland">
+                <h3>Safari Expeditions</h3> <a href="#contact" class="cta-btn">Explore</a>
+            </div>
+            <div class="experience-card">
+                <img src="https://images.unsplash.com/photo-1496412705862-e0088f16f791?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Gourmet meal setup outdoors"> <h3>Culinary Journeys</h3> <a href="#contact" class="cta-btn">Explore</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <h2>What Our Clients Say</h2>
+        <div class="testimonial-slider">
+            <div class="testimonial active" aria-hidden="false"> <div class="testimonial-content">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80" alt="Amelia R."
+                        class="testimonial-image"> <blockquote>
+                        <p>"Elysian Voyages crafted an unforgettable journey that exceeded our wildest dreams. The
+                            attention to detail and personalized service made our trip truly exceptional."</p>
+                        <cite>
+                            <span class="client-name">Amelia R.</span>
+                            <span class="client-location">London, UK</span>
+                            <div class="rating">★★★★★</div>
+                        </cite>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="testimonial" aria-hidden="true"> <div class="testimonial-content">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80" alt="James T."
+                        class="testimonial-image"> <blockquote>
+                        <p>"Their attention to detail and personalized service is unmatched. Every moment was carefully
+                            curated to create lasting memories."</p>
+                        <cite>
+                            <span class="client-name">James T.</span>
+                            <span class="client-location">New York, USA</span>
+                            <div class="rating">★★★★★</div>
+                        </cite>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="testimonial" aria-hidden="true"> <div class="testimonial-content">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80" alt="Sophie M."
+                        class="testimonial-image"> <blockquote>
+                        <p>"A truly luxurious experience from start to finish. Elysian Voyages transformed our vacation
+                            into an extraordinary adventure."</p>
+                        <cite>
+                            <span class="client-name">Sophie M.</span>
+                            <span class="client-location">Paris, France</span>
+                            <div class="rating">★★★★★</div>
+                        </cite>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-controls">
+            <button class="prev-btn" aria-label="Previous testimonial">&lt;</button>
+            <button class="next-btn" aria-label="Next testimonial">&gt;</button>
+        </div>
+    </section>
+
+    <section class="booking-process">
+        <h2>Our Simple Booking Process</h2> <div class="process-steps">
+            <div class="process-step">
+                <i class="fas fa-comments"></i>
+                <h3>1. Consultation</h3>
+                <p>Share your travel dreams and preferences with our expert advisors.</p>
+            </div>
+            <div class="process-step">
+                <i class="fas fa-map-marked-alt"></i>
+                <h3>2. Planning</h3>
+                <p>Receive a bespoke itinerary meticulously crafted just for you.</p>
+            </div>
+            <div class="process-step">
+                <i class="fas fa-plane-departure"></i>
+                <h3>3. Experience</h3>
+                <p>Embark on your seamless journey with our dedicated white-glove service.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="journal">
+        <h2>From Our Travel Journal</h2> <div class="journal-grid">
+            <div class="journal-card">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Sunny beach in the Maldives"> <div class="journal-card-content">
+                      <h3>Sun, Sand, and Serenity: Exploring the Maldives</h3>
+                 </div>
+            </div>
+            <div class="journal-card">
+                <img src="https://images.pexels.com/photos/163864/santorini-oia-greece-travel-163864.jpeg?auto=compress&cs=tinysrgb&w=600"
+                    alt="Iconic white buildings of Santorini"> <div class="journal-card-content">
+                      <h3>Santorini's Hidden Gems & Sunset Views</h3>
+                 </div>
+            </div>
+            <div class="journal-card">
+                <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Majestic mountains of Patagonia"> <div class="journal-card-content">
+                      <h3>Untamed Beauty: A Journey Through Patagonia</h3>
+                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Start Planning Your Journey</h2> <form>
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Tell us about your desired trip..." rows="5" required></textarea> <button type="submit">Send Inquiry</button> </form>
+    </section>
+
+    <footer>
+        <div class="newsletter">
+            <h3>Subscribe for Travel Inspiration</h3> <input type="email" placeholder="Enter your email address">
+            <button>Subscribe</button>
+        </div>
+        <div class="social">
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i> Instagram</a> <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i> Twitter</a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i> Facebook</a>
+        </div>
+        <p>© <span id="current-year"></span> Elysian Voyages. All rights reserved.</p> </footer>
+
+    <script>
+        // --- Burger Menu Toggle ---
+        const burgerMenu = document.querySelector('.burger-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (burgerMenu && navLinks) {
+            burgerMenu.addEventListener('click', () => {
+                burgerMenu.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+
+            // Close menu when a link is clicked
+            document.querySelectorAll('.nav-links li a').forEach(link => {
+                link.addEventListener('click', () => {
+                    burgerMenu.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+
+            // Close menu when clicking outside on mobile
+            document.addEventListener('click', (e) => {
+                 // Check if navLinks exists and is active before checking contains
+                 if (navLinks.classList.contains('active') && !navLinks.contains(e.target) && !burgerMenu.contains(e.target)) {
+                    burgerMenu.classList.remove('active');
+                    navLinks.classList.remove('active');
+                }
+            });
+        }
+
+        // --- Header Scroll Effect ---
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (header) {
+                 header.classList.toggle('scrolled', window.scrollY > 50);
+            }
+        });
+
+        // --- UPDATED TESTIMONIAL SLIDER SCRIPT ---
+        const testimonials = document.querySelectorAll('.testimonial');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const sliderContainer = document.querySelector('.testimonial-slider'); // Get container for hover
+        let current = 0;
+        let intervalId = null; // Store interval ID
+
+        // Function to display a specific testimonial
+        function showTestimonial(index) {
+            if (!testimonials || testimonials.length === 0) return; // Exit if no testimonials
+
+            testimonials.forEach((testimonial, i) => {
+                testimonial.classList.remove('active');
+                testimonial.setAttribute('aria-hidden', 'true'); // Hide inactive slides from screen readers
+            });
+
+            // Ensure index is valid
+            current = (index + testimonials.length) % testimonials.length;
+
+            testimonials[current].classList.add('active');
+            testimonials[current].setAttribute('aria-hidden', 'false'); // Show active slide
+        }
+
+        // Function to show the next testimonial
+        function nextTestimonial() {
+            showTestimonial(current + 1);
+        }
+
+        // Function to show the previous testimonial
+        function prevTestimonial() {
+            showTestimonial(current - 1);
+        }
+
+        // Function to start the automatic sliding interval
+        function startSliderInterval() {
+            stopSliderInterval(); // Clear existing interval first
+            intervalId = setInterval(nextTestimonial, 5000); // Start auto-play (5 seconds)
+        }
+
+        // Function to stop the automatic sliding interval
+        function stopSliderInterval() {
+             clearInterval(intervalId);
+        }
+
+        // Initialize slider if testimonials exist
+        if (testimonials.length > 0) {
+            // Show the first testimonial initially (already handled by 'active' class in HTML, but good practice)
+            // showTestimonial(0); // Uncomment if you remove 'active' class from HTML
+
+            // Button listeners
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    nextTestimonial();
+                    startSliderInterval(); // Restart interval on manual navigation
+                });
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    prevTestimonial();
+                    startSliderInterval(); // Restart interval on manual navigation
+                });
+            }
+
+            // Pause animation on hover (optional but good UX)
+            if (sliderContainer) {
+                sliderContainer.addEventListener('mouseenter', stopSliderInterval); // Pause on hover
+                sliderContainer.addEventListener('mouseleave', startSliderInterval); // Resume on mouse leave
+            }
+
+            // Start the auto-play
+            startSliderInterval();
+
+        } else {
+             // Optionally hide controls if no testimonials exist
+             const controls = document.querySelector('.testimonial-controls');
+             if (controls) controls.style.display = 'none';
+        }
+
+        // --- Lazy loading images (Basic Implementation) ---
+        // More robust lazy loading might use Intersection Observer API
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('img[data-src]');
+             images.forEach(img => {
+                 img.src = img.dataset.src;
+                 img.onload = () => img.removeAttribute('data-src'); // Remove data-src after load
+             });
+
+             // Set current year in footer
+             const yearSpan = document.getElementById('current-year');
+             if(yearSpan) {
+                 yearSpan.textContent = new Date().getFullYear();
+             }
+        });
+
+    </script>
+</body>
+
+</html>
